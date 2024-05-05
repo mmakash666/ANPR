@@ -17,7 +17,9 @@ if(isset($_POST["sub"])) {
     
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
+            $mail_sentTo = $row["email"];
             // Displaying information from the database
+            
             echo "NID: " . $row["nid"] . "<br>";
             echo "Car Owner Name: " . $row["username"] . "<br>";
             echo "Amount: " . $row["amount"] . "<br>";
@@ -31,7 +33,7 @@ if(isset($_POST["sub"])) {
             echo "Amount after deduction: $after_deduct<br>";
 
 
-             //error handling of amount
+             //error handling of amount i will do this later
 
              
             
@@ -61,4 +63,58 @@ if(isset($_POST["sub"])) {
 
 
 }
+
+
+
+
+
+
+
+
+// using mail service to notify the user about the collected toll
+
+
+// Include PHPMailer library
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php'; // Path to PHPMailer autoload.php file
+
+// Create a new PHPMailer instance
+$mail = new PHPMailer(true);
+
+try {
+    // Server settings
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'mmakash666@gmail.com'; // email address
+    $mail->Password = 'nwtm aotb nfxy uaqz'; // Gmail password generated on the google account app password section
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = 587;
+
+    // Recipients
+    
+    $mail->setFrom('mmakash666@gmail.com', 'Mahbub Mokaddes Akash');
+    $mail->addAddress($mail_sentTo);
+
+    // Email content
+    $mail->isHTML(true);
+    $mail->Subject = 'Toll plaza';
+    $mail->Body = '<p>Thank you for your toll. 
+    
+    </p>';
+
+    // Send email
+    $mail->send();
+    echo 'Email has been sent successfully!';
+} catch (Exception $e) {
+    echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
+
+
+
+
+
+
 ?>
