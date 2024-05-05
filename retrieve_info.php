@@ -17,7 +17,11 @@ if(isset($_POST["sub"])) {
     
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
+
+
             $mail_sentTo = $row["email"];
+            $user_name = $row["username"];
+            
             // Displaying information from the database
             
             echo "NID: " . $row["nid"] . "<br>";
@@ -101,9 +105,25 @@ try {
     // Email content
     $mail->isHTML(true);
     $mail->Subject = 'Toll plaza';
-    $mail->Body = '<p>Thank you for your toll. 
+    $mail->Body = "<p> 
+
+    Dear $user_name
     
-    </p>';
+    We hope this message finds you well.
+    
+    'We are writing to inform you about a recent toll deduction from your account associated with license plate number  $license_plate The deducted amount from your wallet was $var
+    
+    Your current wallet balance is $after_deduct Please note that this balance reflects the remaining amount after the recent toll deduction.
+    
+    If you have any questions or concerns regarding this deduction or your wallet balance, please dont hesitate to contact us mmakash666@gmail.com.
+    
+    Thank you for your attention to this matter.
+    
+     Best regards,
+     Mahbub Mokaddes Akash
+     Director of Toll plaza
+    
+    </p>";
 
     // Send email
     $mail->send();
